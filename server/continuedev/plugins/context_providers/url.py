@@ -63,7 +63,7 @@ class URLContextProvider(ContextProvider):
         if not url.startswith("http"):
             url = "https://" + url
 
-        response = requests.get(url)
+        response = requests.get(url, timeout=60)
         soup = BeautifulSoup(response.text, "html.parser")
         title = url.replace("https://", "").replace("http://", "").replace("www.", "")
         if soup.title is not None:

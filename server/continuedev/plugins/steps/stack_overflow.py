@@ -25,7 +25,7 @@ async def get_results(q: str):
     payload = json.dumps({"q": f"{q} site:stackoverflow.com"})
 
     try:
-        response = requests.request("POST", f"{SERVER_URL}/search", data=payload)
+        response = requests.request("POST", f"{SERVER_URL}/search", data=payload, timeout=60)
         return response.json()
     except Exception:
         logger.warning(
@@ -35,7 +35,7 @@ async def get_results(q: str):
 
 
 async def get_link_contents(url: str) -> Optional[str]:
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     soup = BeautifulSoup(response.text, "html.parser")
     converter = html2text.HTML2Text()
 
