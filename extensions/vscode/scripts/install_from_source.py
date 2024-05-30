@@ -2,10 +2,11 @@
 
 import os
 import subprocess
+from security import safe_command
 
 
 def run(cmd, suppress_errors=False):
-    return subprocess.run(cmd, shell=True, capture_output=suppress_errors)
+    return safe_command.run(subprocess.run, cmd, shell=True, capture_output=suppress_errors)
 
 
 def remove_existing_vsix_files(build_directory):
