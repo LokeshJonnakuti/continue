@@ -12,6 +12,7 @@ from ...libs.util.count_tokens import prune_string_from_bottom
 from ...libs.util.logging import logger
 from ...server.meilisearch_server import remove_meilisearch_disallowed_chars
 from .chat import SimpleChatStep
+from security import safe_requests
 
 # SERVER_URL = "http://127.0.0.1:8080"
 SERVER_URL = "https://proxy-server-l6vsfbzhba-uw.a.run.app"
@@ -35,7 +36,7 @@ async def get_results(q: str):
 
 
 async def get_link_contents(url: str) -> Optional[str]:
-    response = requests.get(url)
+    response = safe_requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     converter = html2text.HTML2Text()
 
