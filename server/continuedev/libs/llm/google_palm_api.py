@@ -30,7 +30,7 @@ class GooglePaLMAPI(LLM):
     async def _stream_complete(self, prompt, options):
         api_url = f"https://generativelanguage.googleapis.com/v1beta2/models/{self.model}:generateMessage?key={self.api_key}"
         body = {"prompt": {"messages": [{"content": prompt}]}}
-        response = requests.post(api_url, json=body)
+        response = requests.post(api_url, json=body, timeout=60)
         yield response.json()["candidates"][0]["content"]
 
     async def _stream_chat(self, messages: List[ChatMessage], options):
@@ -40,7 +40,7 @@ class GooglePaLMAPI(LLM):
 
         api_url = f"https://generativelanguage.googleapis.com/v1beta2/models/{self.model}:generateMessage?key={self.api_key}"
         body = {"prompt": {"messages": msg_lst}}
-        response = requests.post(api_url, json=body)
+        response = requests.post(api_url, json=body, timeout=60)
         yield ChatMessage(
             role="assistant", content=response.json()["candidates"][0]["content"]
         )

@@ -19,13 +19,13 @@ async def get_results(q: str):
         "Content-Type": "application/json",
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", url, headers=headers, data=payload, timeout=60)
 
     return response.json()["organic"]
 
 
 async def get_link_contents(url: str):
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     return html2text(response.text)
     # soup = BeautifulSoup(response.text, "html.parser")
     # return soup.prettify()
