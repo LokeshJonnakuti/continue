@@ -5,6 +5,7 @@ import os
 import requests
 from dotenv import load_dotenv
 from html2text import html2text
+from security import safe_requests
 
 load_dotenv()
 SERPER_API_KEY = os.getenv("SERPER_API_KEY")
@@ -25,7 +26,7 @@ async def get_results(q: str):
 
 
 async def get_link_contents(url: str):
-    response = requests.get(url)
+    response = safe_requests.get(url)
     return html2text(response.text)
     # soup = BeautifulSoup(response.text, "html.parser")
     # return soup.prettify()

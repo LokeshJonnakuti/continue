@@ -1,12 +1,11 @@
 from typing import List, Optional, Tuple
-
-import requests
 from bs4 import BeautifulSoup
 from pydantic import Field
 
 from ...core.context import ContextProvider
 from ...core.main import ContextItem, ContextItemDescription, ContextItemId
 from .util import remove_meilisearch_disallowed_chars, remove_prefix
+from security import safe_requests
 
 
 class URLContextProvider(ContextProvider):
@@ -63,7 +62,7 @@ class URLContextProvider(ContextProvider):
         if not url.startswith("http"):
             url = "https://" + url
 
-        response = requests.get(url)
+        response = safe_requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
         title = url.replace("https://", "").replace("http://", "").replace("www.", "")
         if soup.title is not None:
