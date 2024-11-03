@@ -1,12 +1,12 @@
 import asyncio
 import os
-import random
 import subprocess
 from typing import Dict, List, Optional
 
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
+import secrets
 
 openai = FastAPI()
 
@@ -31,7 +31,7 @@ async def mock_completion(item: CompletionBody):
 
         async def stream_text():
             for i in range(len(text)):
-                word = random.choice(prompt.split())
+                word = secrets.choice(prompt.split())
                 yield {
                     "choices": [
                         {
